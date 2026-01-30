@@ -2,12 +2,14 @@
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
-<title>نتائج لعبة الدومينو</title>
+<title>دومينو الحديثي</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<!-- خط دبي من Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Dubai:wght@400;700&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
 <style>
 body {
-    font-family: Tahoma, Arial, sans-serif;
+    font-family: 'Dubai', Tahoma, Arial, sans-serif;
     background: #f0f0f0;
     margin: 0; padding: 0;
 }
@@ -38,7 +40,6 @@ button {
     transition: background 0.2s;
 }
 button:hover { background: #0056b3; }
-label { display: block; margin-top: 10px; }
 .team-title {
     background: #eee;
     padding: 8px;
@@ -83,6 +84,38 @@ label { display: block; margin-top: 10px; }
     margin-bottom: 10px;
     border-radius: 8px;
 }
+.player-name {
+    font-size: 1.4em;
+    font-weight: bold;
+    color: #222;
+}
+.team-box {
+    display: inline-block;
+    background: #007bff;
+    color: #fff;
+    padding: 8px 20px;
+    border-radius: 10px;
+    font-size: 1.3em;
+    margin-bottom: 10px;
+}
+.team-box.red {
+    background: #ff3b3b;
+}
+.big-score {
+    font-size: 1.4em;
+    color: #222;
+    font-weight: bold;
+}
+.points-table {
+    width: 100%;
+    margin-top: 15px;
+    border-collapse: collapse;
+}
+.points-table th, .points-table td {
+    border: 1px solid #ccc;
+    padding: 6px 10px;
+    text-align: center;
+}
 .smile {
     font-size: 1.5em;
     color: #ff9800;
@@ -126,22 +159,22 @@ label { display: block; margin-top: 10px; }
     <div id="gameInfo"></div>
     <div class="team-title" id="team1title"></div>
     <div class="score-box team1">
-        <span id="t1p1name"></span>
+        <span id="t1p1name" class="player-name"></span>
         <input type="number" id="t1p1score" placeholder="النقاط">
     </div>
     <div class="score-box team1">
-        <span id="t1p2name"></span>
+        <span id="t1p2name" class="player-name"></span>
         <input type="number" id="t1p2score" placeholder="النقاط">
     </div>
     <div class="scores-total">مجموع نقاط الفريق الأول: <span id="team1total">0</span></div>
     <hr>
     <div class="team-title" id="team2title"></div>
     <div class="score-box team2">
-        <span id="t2p1name"></span>
+        <span id="t2p1name" class="player-name"></span>
         <input type="number" id="t2p1score" placeholder="النقاط">
     </div>
     <div class="score-box team2">
-        <span id="t2p2name"></span>
+        <span id="t2p2name" class="player-name"></span>
         <input type="number" id="t2p2score" placeholder="النقاط">
     </div>
     <div class="scores-total">مجموع نقاط الفريق الثاني: <span id="team2total">0</span></div>
@@ -154,6 +187,7 @@ label { display: block; margin-top: 10px; }
 let team1 = {name:"", players:["",""], scores:[0,0]};
 let team2 = {name:"", players:["",""], scores:[0,0]};
 let gameStarted = false, startTime = "", endTime = "";
+let pointsHistory = []; // [{team: 1, player: 0, value: 10, time: "08:30:12"}, ...]
 
 function showTeam1() {
     document.getElementById("welcome").style.display = "none";
@@ -184,10 +218,17 @@ function startGame() {
 }
 function addScores() {
     if (!gameStarted) return;
+    let now = new Date().toLocaleTimeString("ar-EG");
     let s1 = Number(document.getElementById("t1p1score").value) || 0;
     let s2 = Number(document.getElementById("t1p2score").value) || 0;
     let s3 = Number(document.getElementById("t2p1score").value) || 0;
     let s4 = Number(document.getElementById("t2p2score").value) || 0;
+
+    if (s1) pointsHistory.push({team: 1, player: 0, value: s1, time: now});
+    if (s2) pointsHistory.push({team: 1, player: 1, value: s2, time: now});
+    if (s3) pointsHistory.push({team: 2, player: 0, value: s3, time: now});
+    if (s4) pointsHistory.push({team: 2, player: 1, value: s4, time: now});
+
     team1.scores[0] += s1;
     team1.scores[1] += s2;
     team2.scores[0] += s3;
@@ -236,82 +277,85 @@ function showResults(total1, total2) {
     let durationMin = Math.floor(durationMs / 60000);
     let durationSec = Math.floor((durationMs % 60000) / 1000);
 
-    // إذا الفريق الخاسر نتيجته صفر أضف سمايلات و"ملص"
-    let loserTable = "";
-    if (loserTotal === 0) {
-        loserTable = `
-        <h3>${loser} <span class="smile">😄</span></h3>
-        <table>
-            <tr><th>الاسم</th><th>النقاط</th><th></th></tr>
+    // جدول النقاط التفصيلي
+    let pointsTable = `
+    <h3>جدول النقاط التفصيلي</h3>
+    <table class="points-table">
+        <tr>
+            <th>الفريق</th>
+            <th>اللاعب</th>
+            <th>النقطة</th>
+            <th>الوقت</th>
+        </tr>
+        ${pointsHistory.map(p => `
             <tr>
-                <td>${loserPlayers[0]}</td>
-                <td>0</td>
-                <td><span class="smile">😄</span> <span class="sticker">ملص</span></td>
+                <td>${p.team === 1 ? team1.name : team2.name}</td>
+                <td>${p.team === 1 ? team1.players[p.player] : team2.players[p.player]}</td>
+                <td class="big-score">${p.value}</td>
+                <td>${p.time}</td>
             </tr>
-            <tr>
-                <td>${loserPlayers[1]}</td>
-                <td>0</td>
-                <td><span class="smile">😄</span> <span class="sticker">ملص</span></td>
-            </tr>
-            <tr><th>المجموع</th><th colspan="2">0</th></tr>
-        </table>
-        `;
-    } else {
-        loserTable = `
-        <h3>${loser}</h3>
-        <table>
-            <tr><th>الاسم</th><th>النقاط</th></tr>
-            <tr>
-                <td>${loserPlayers[0]}</td>
-                <td>${loserScores[0]}</td>
-            </tr>
-            <tr>
-                <td>${loserPlayers[1]}</td>
-                <td>${loserScores[1]}</td>
-            </tr>
-            <tr><th>المجموع</th><th>${loserTotal}</th></tr>
-        </table>
-        `;
-    }
+        `).join('')}
+    </table>
+    `;
 
-    let html = `
-    <div class="winner-banner">🏆 ${winner} هو الفائز 🏆</div>
-    <h3>${winner}</h3>
+    // جدول الفريق الفائز
+    let winnerTable = `
+    <h3 class="team-box${winner === team2.name ? ' red' : ''}">${winner}</h3>
     <table>
         <tr><th>الاسم</th><th>النقاط</th></tr>
         <tr>
-            <td>${winnerPlayers[0]}</td>
-            <td>${winnerScores[0]}</td>
+            <td class="player-name">${winnerPlayers[0]} - </td>
+            <td class="big-score">${winnerScores[0]}</td>
         </tr>
         <tr>
-            <td>${winnerPlayers[1]}</td>
-            <td>${winnerScores[1]}</td>
+            <td class="player-name">${winnerPlayers[1]} - </td>
+            <td class="big-score">${winnerScores[1]}</td>
         </tr>
-        <tr><th>المجموع</th><th>${winnerTotal}</th></tr>
+        <tr><th>المجموع</th><th class="big-score">${winnerTotal}</th></tr>
     </table>
+    `;
+
+    // جدول الفريق الخاسر (مع سمايلات إذا صفر)
+    let loserTable = `
+    <h3 class="team-box red">${loser}${loserTotal === 0 ? ' <span class="smile">😄</span>' : ''}</h3>
+    <table>
+        <tr><th>الاسم</th><th>النقاط</th>${loserTotal === 0 ? '<th></th>' : ''}</tr>
+        <tr>
+            <td class="player-name">${loserPlayers[0]} - </td>
+            <td class="big-score">${loserScores[0]}</td>
+            ${loserTotal === 0 ? '<td><span class="smile">😄</span> <span class="sticker">ملص</span></td>' : ''}
+        </tr>
+        <tr>
+            <td class="player-name">${loserPlayers[1]} - </td>
+            <td class="big-score">${loserScores[1]}</td>
+            ${loserTotal === 0 ? '<td><span class="smile">😄</span> <span class="sticker">ملص</span></td>' : ''}
+        </tr>
+        <tr><th>المجموع</th><th class="big-score">${loserTotal}</th>${loserTotal === 0 ? '<th></th>' : ''}</tr>
+    </table>
+    `;
+
+    let html = `
+    <div class="winner-banner">🏆 <span class="team-box${winner === team2.name ? ' red' : ''}">${winner}</span> هو الفائز 🏆</div>
+    ${winnerTable}
     ${loserTable}
+    ${pointsTable}
     <h3>🌟 أفضل لاعب: ${bestPlayer}</h3>
     <p>📅 وقت بدء اللعبة: ${startTime.toLocaleString("ar-EG")}</p>
     <p>📅 وقت نهاية اللعبة: ${endTime.toLocaleString("ar-EG")}</p>
     <p>⏱️ مدة اللعبة: ${durationMin} دقيقة و ${durationSec} ثانية</p>
-    <button onclick="downloadImage('${winner}', '${endTime.toLocaleDateString("ar-EG")}', '${endTime.toLocaleTimeString("ar-EG")}')">تحميل صورة النتيجة</button>
+    <button onclick="downloadImage()">تحميل صورة النتيجة</button>
     `;
     document.getElementById("result").innerHTML = html;
     document.getElementById("result").style.display = "block";
 }
-function downloadImage(winner, dateStr, timeStr){
-    // صياغة اسم الملف: الفريق الفائز-تاريخ-ساعة.png
-    dateStr = dateStr.replace(/\//g, "-");
-    timeStr = timeStr.replace(/:/g, "-");
-    let fileName = `${winner}-${dateStr}-${timeStr}.png`;
+function downloadImage(){
     html2canvas(document.getElementById("result")).then(canvas=>{
         let link = document.createElement("a");
-        link.download = fileName;
+        link.download = "نتيجة_اللعبة.png";
         link.href = canvas.toDataURL();
         link.click();
     });
 }
 </script>
 </body>
-
 </html>
