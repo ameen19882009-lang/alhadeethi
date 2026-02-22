@@ -1,441 +1,330 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-<meta charset="UTF-8">
-<title>دومينوالحديثي</title>
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<!-- خط دبي -->
-<link href="https://fonts.googleapis.com/css2?family=Dubai:wght@400;700&display=swap" rel="stylesheet">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<style>
-body { font-family: 'Dubai', Tahoma, Arial, sans-serif; background: #f0f0f0; margin: 0; padding: 0; }
-.container { max-width: 400px; margin: 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 0 10px #ccc; padding: 20px; margin-top: 20px; }
-h2, h3 { margin: 10px 0; }
-input, button { width: 100%; padding: 12px; margin: 8px 0; border-radius: 6px; border: 1px solid #ccc; font-size: 1em; }
-button { background: #007bff; color: white; border: none; font-weight: bold; cursor: pointer; transition: background 0.2s; }
-button:hover { background: #0056b3; }
-.team-title { background: #eee; padding: 8px; border-radius: 6px; margin-bottom: 10px; text-align: center; font-weight: bold; }
-.score-box { display: flex; justify-content: space-between; align-items: center; margin: 8px 0; }
-.score-box input { width: 60px; margin: 0 5px; text-align: center; }
-.score-box.team1 input { background: #e3f0ff; border: 2px solid #007bff; }
-.score-box.team2 input { background: #ffe3e3; border: 2px solid #ff3b3b; }
-.scores-total { background: #f8f9fa; padding: 8px; border-radius: 6px; text-align: center; font-weight: bold; margin-top: 10px; }
-.winner-banner { background: #28a745; color: white; padding: 10px; text-align: center; font-size: 20px; margin-bottom: 10px; border-radius: 8px; }
-.player-name { font-size: 1.4em; font-weight: bold; color: #222; }
-.team-box { display: inline-block; background: #007bff; color: #fff; padding: 8px 20px; border-radius: 10px; font-size: 1.3em; margin-bottom: 10px; }
-.team-box.red { background: #ff3b3b; }
-.big-score { font-size: 1.4em; color: #222; font-weight: bold; }
-.points-table { width: 100%; margin-top: 15px; border-collapse: collapse; }
-.points-table th, .points-table td { border: 1px solid #ccc; padding: 6px 10px; text-align: center; }
-.smile { font-size: 1.5em; color: #ff9800; margin-left: 5px; }
-.sticker { color: #ff3b3b; font-weight: bold; margin-right: 5px; }
-.scores-summary { background: #e9ecef; padding: 10px; border-radius: 8px; margin-bottom: 10px; text-align: center; font-weight: bold; }
-.action-btns { display: flex; flex-direction: column; gap: 10px; margin-top: 20px; }
-@media (max-width: 500px) { .container { padding: 10px; } input, button { font-size: 0.95em; } }
-</style>
+    <meta charset="UTF-8">
+    <title>دومينو الحديثي - النسخة الاحترافية</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <link href="https://fonts.googleapis.com/css2?family=Dubai:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <style>
+        :root {
+            --primary: #007aff;
+            --secondary: #5856d6;
+            --danger: #ff3b30;
+            --success: #34c759;
+            --bg: #f2f2f7;
+            --card: #ffffff;
+            --text: #1c1c1e;
+        }
+
+        body { 
+            font-family: 'Dubai', sans-serif; 
+            background-color: var(--bg); 
+            color: var(--text);
+            margin: 0; 
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+
+        .app-container {
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 25px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+            margin-bottom: 20px;
+            border: 1px solid rgba(0,0,0,0.05);
+            transition: transform 0.3s ease;
+        }
+
+        h2 { color: var(--primary); text-align: center; margin-top: 0; }
+        p { text-align: center; color: #666; font-size: 0.9em; }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            margin: 10px 0;
+            border-radius: 12px;
+            border: 1px solid #ddd;
+            font-size: 16px; /* منع الزووم في الآيفون */
+            box-sizing: border-box;
+            background: #f9f9f9;
+            font-family: 'Dubai';
+        }
+
+        input:focus {
+            outline: none;
+            border-color: var(--primary);
+            background: #fff;
+        }
+
+        button {
+            width: 100%;
+            padding: 15px;
+            border-radius: 12px;
+            border: none;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.2s;
+            margin: 5px 0;
+            font-family: 'Dubai';
+        }
+
+        .btn-primary { background: var(--primary); color: white; }
+        .btn-success { background: var(--success); color: white; }
+        .btn-outline { background: transparent; border: 2px solid var(--primary); color: var(--primary); }
+
+        button:active { transform: scale(0.98); opacity: 0.9; }
+
+        .team-section {
+            border-right: 4px solid var(--primary);
+            padding-right: 15px;
+            margin: 20px 0;
+        }
+
+        .team-section.team2 { border-color: var(--secondary); }
+
+        .score-row {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin: 10px 0;
+        }
+
+        .player-label { font-weight: bold; font-size: 1.1em; flex: 1; }
+        .score-input { width: 80px !important; text-align: center; margin: 0 !important; }
+
+        .total-display {
+            text-align: center;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 12px;
+            font-size: 1.1em;
+            margin-top: 10px;
+            transition: all 0.3s ease;
+        }
+
+        /* تمييز الفريق المتصدر */
+        .leader {
+            color: var(--danger) !important;
+            font-size: 1.8em !important;
+            font-weight: 900;
+            background: #fff0f0;
+            border: 1px solid #ffcccc;
+        }
+
+        .winner-banner {
+            background: var(--success);
+            color: white;
+            text-align: center;
+            padding: 20px;
+            border-radius: 15px;
+            font-size: 1.5em;
+            margin-bottom: 20px;
+            animation: pop 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        @keyframes pop { from { transform: scale(0.8); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+
+        .results-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 15px;
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .results-table th, .results-table td {
+            padding: 12px;
+            border: 1px solid #eee;
+            text-align: center;
+        }
+
+        .results-table th { background: #f4f4f4; }
+
+        .export-area { background: white; padding: 20px; border-radius: 10px; }
+    </style>
 </head>
 <body>
-<div class="container" id="welcome">
-    <h2>أهلا وسهلا بيك في نتائج لعبة الدومينو يا ولدي</h2>
-    <p>تحية خاصة للمهندس امين الحديثي الي سوا هاي الصفحة 🌟<br>وصلِ على النبي ويلا نبلش اللعبة!</p>
-    <button onclick="showTeam1()">ابدأ لعبة جديدة</button>
-</div>
 
-<div class="container" id="team1" style="display:none;">
-    <div class="team-title">الفريق الأول</div>
-    <input type="text" id="team1name" placeholder="اسم الفريق الأول">
-    <input type="text" id="t1p1" placeholder="اسم اللاعب الأول">
-    <input type="text" id="t1p2" placeholder="اسم اللاعب الثاني">
-    <button onclick="showTeam2()">التالي</button>
-</div>
+<div class="app-container">
+    <div id="welcome" class="card">
+        <h2>🀄 دومينو الحديثي</h2>
+        <p>تحية خاصة للمهندس أمين الحديثي 🌟<br>صلي على النبي ويلا نبلش!</p>
+        <button class="btn-primary" onclick="showScreen('team1')">ابدأ لعبة جديدة</button>
+    </div>
 
-<div class="container" id="team2" style="display:none;">
-    <div class="team-title">الفريق الثاني</div>
-    <input type="text" id="team2name" placeholder="اسم الفريق الثاني">
-    <input type="text" id="t2p1" placeholder="اسم اللاعب الأول">
-    <input type="text" id="t2p2" placeholder="اسم اللاعب الثاني">
-    <button onclick="startGame()">بدء اللعب</button>
-</div>
+    <div id="team1" class="card" style="display:none;">
+        <h3>الفريق الأول</h3>
+        <input type="text" id="team1name" placeholder="اسم الفريق (مثلاً: الصقور)">
+        <input type="text" id="t1p1" placeholder="اسم اللاعب الأول">
+        <input type="text" id="t1p2" placeholder="اسم اللاعب الثاني">
+        <button class="btn-primary" onclick="showScreen('team2')">التالي</button>
+    </div>
 
-<div class="container" id="game" style="display:none;">
-    <div id="gameInfo"></div>
-    <div class="team-title" id="team1title"></div>
-    <div class="score-box team1">
-        <span id="t1p1name" class="player-name"></span>
-        <input type="number" id="t1p1score" placeholder="النقاط">
+    <div id="team2" class="card" style="display:none;">
+        <h3>الفريق الثاني</h3>
+        <input type="text" id="team2name" placeholder="اسم الفريق (مثلاً: الأبطال)">
+        <input type="text" id="t2p1" placeholder="اسم اللاعب الأول">
+        <input type="text" id="t2p2" placeholder="اسم اللاعب الثاني">
+        <button class="btn-primary" onclick="startGame()">بدء اللعب</button>
     </div>
-    <div class="score-box team1">
-        <span id="t1p2name" class="player-name"></span>
-        <input type="number" id="t1p2score" placeholder="النقاط">
-    </div>
-    <div class="scores-total">مجموع نقاط الفريق الأول: <span id="team1total">0</span></div>
-    <hr>
-    <div class="team-title" id="team2title"></div>
-    <div class="score-box team2">
-        <span id="t2p1name" class="player-name"></span>
-        <input type="number" id="t2p1score" placeholder="النقاط">
-    </div>
-    <div class="score-box team2">
-        <span id="t2p2name" class="player-name"></span>
-        <input type="number" id="t2p2score" placeholder="النقاط">
-    </div>
-    <div class="scores-total">مجموع نقاط الفريق الثاني: <span id="team2total">0</span></div>
-    <button onclick="addScores()">إدخال</button>
-</div>
 
-<div class="container" id="afterGame" style="display:none;">
-    <div id="winnerMsg"></div>
-    <div class="action-btns">
-        <button onclick="showResults()">تقرير النتائج</button>
-        <button onclick="startExtraGame()">لعبة إضافية بنفس الفرق</button>
-        <button onclick="startNewGame()">لعبة جديدة بفرق جديدة</button>
+    <div id="game" class="card" style="display:none;">
+        <div id="gameTime" style="text-align:center; font-size:0.8em; color:#888; margin-bottom:10px;"></div>
+        
+        <div class="team-section">
+            <h4 id="displayT1Name" style="margin:0"></h4>
+            <div class="score-row">
+                <span id="displayT1P1" class="player-label"></span>
+                <input type="number" inputmode="numeric" id="t1p1score" class="score-input" placeholder="0">
+            </div>
+            <div class="score-row">
+                <span id="displayT1P2" class="player-label"></span>
+                <input type="number" inputmode="numeric" id="t1p2score" class="score-input" placeholder="0">
+            </div>
+            <div id="t1TotalBox" class="total-display">المجموع: <span id="team1total">0</span></div>
+        </div>
+
+        <hr style="border: 0; height: 1px; background: #eee; margin: 20px 0;">
+
+        <div class="team-section team2">
+            <h4 id="displayT2Name" style="margin:0"></h4>
+            <div class="score-row">
+                <span id="displayT2P1" class="player-label"></span>
+                <input type="number" inputmode="numeric" id="t2p1score" class="score-input" placeholder="0">
+            </div>
+            <div class="score-row">
+                <span id="displayT2P2" class="player-label"></span>
+                <input type="number" inputmode="numeric" id="t2p2score" class="score-input" placeholder="0">
+            </div>
+            <div id="t2TotalBox" class="total-display">المجموع: <span id="team2total">0</span></div>
+        </div>
+
+        <button class="btn-success" style="margin-top:20px;" onclick="addScores()">تسجيل النقاط</button>
+    </div>
+
+    <div id="afterGame" style="display:none;">
+        <div id="winnerMsg"></div>
+        <div class="card">
+            <button class="btn-primary" onclick="showResults()">عرض تقرير النتائج</button>
+            <button class="btn-outline" onclick="startExtraGame()">جولة إضافية (نفس الفرق)</button>
+            <button class="btn-outline" style="color:var(--danger); border-color:var(--danger)" onclick="location.reload()">لعبة جديدة بالكامل</button>
+        </div>
+    </div>
+
+    <div id="result" class="card" style="display:none;">
+        <div id="captureArea" class="export-area">
+            <h2 style="color:black">تقرير جولة الدومينو</h2>
+            <div id="reportContent"></div>
+        </div>
+        <button class="btn-success" onclick="exportAsImage()">حفظ كصورة في الاستوديو</button>
+        <button class="btn-outline" onclick="showScreen('game')">العودة للعب</button>
     </div>
 </div>
-
-<div class="container" id="result" style="display:none;"></div>
 
 <script>
 let team1 = {name:"", players:["",""], scores:[0,0]};
 let team2 = {name:"", players:["",""], scores:[0,0]};
-let gameStarted = false, startTime = "", endTime = "";
 let pointsHistory = [];
 let allGames = [];
-let winCount = {team1: 0, team2: 0};
+let startTime;
 
-function showTeam1() {
-    document.getElementById("welcome").style.display = "none";
-    document.getElementById("team1").style.display = "block";
+function showScreen(screenId) {
+    const screens = ['welcome', 'team1', 'team2', 'game', 'afterGame', 'result'];
+    screens.forEach(s => document.getElementById(s).style.display = 'none');
+    document.getElementById(screenId).style.display = 'block';
 }
-function showTeam2() {
-    team1.name = document.getElementById("team1name").value || "الفريق الأول";
-    team1.players[0] = document.getElementById("t1p1").value || "لاعب 1";
-    team1.players[1] = document.getElementById("t1p2").value || "لاعب 2";
-    document.getElementById("team1").style.display = "none";
-    document.getElementById("team2").style.display = "block";
-}
+
 function startGame() {
-    team2.name = document.getElementById("team2name").value || "الفريق الثاني";
-    team2.players[0] = document.getElementById("t2p1").value || "لاعب 1";
-    team2.players[1] = document.getElementById("t2p2").value || "لاعب 2";
-    document.getElementById("team2").style.display = "none";
-    document.getElementById("game").style.display = "block";
+    team1.name = document.getElementById("team1name").value || "الفريق 1";
+    team1.players = [document.getElementById("t1p1").value || "لاعب 1", document.getElementById("t1p2").value || "لاعب 2"];
+    
+    team2.name = document.getElementById("team2name").value || "الفريق 2";
+    team2.players = [document.getElementById("t2p1").value || "لاعب 1", document.getElementById("t2p2").value || "لاعب 2"];
+
+    document.getElementById("displayT1Name").innerText = team1.name;
+    document.getElementById("displayT2Name").innerText = team2.name;
+    document.getElementById("displayT1P1").innerText = team1.players[0];
+    document.getElementById("displayT1P2").innerText = team1.players[1];
+    document.getElementById("displayT2P1").innerText = team2.players[0];
+    document.getElementById("displayT2P2").innerText = team2.players[1];
+    
     startTime = new Date();
-    pointsHistory = [];
-    team1.scores = [0,0];
-    team2.scores = [0,0];
-    document.getElementById("gameInfo").innerHTML = `<p>تاريخ ووقت بدء اللعبة: ${startTime.toLocaleString("ar-EG")}</p>`;
-    document.getElementById("team1title").innerText = team1.name;
-    document.getElementById("team2title").innerText = team2.name;
-    document.getElementById("t1p1name").innerText = team1.players[0];
-    document.getElementById("t1p2name").innerText = team1.players[1];
-    document.getElementById("t2p1name").innerText = team2.players[0];
-    document.getElementById("t2p2name").innerText = team2.players[1];
-    document.getElementById("team1total").innerText = 0;
-    document.getElementById("team2total").innerText = 0;
-    gameStarted = true;
+    document.getElementById("gameTime").innerText = "بدأت في: " + startTime.toLocaleTimeString("ar-EG");
+    
+    showScreen('game');
 }
+
 function addScores() {
-    if (!gameStarted) return;
-    let now = new Date().toLocaleTimeString("ar-EG");
     let s1 = Number(document.getElementById("t1p1score").value) || 0;
     let s2 = Number(document.getElementById("t1p2score").value) || 0;
     let s3 = Number(document.getElementById("t2p1score").value) || 0;
     let s4 = Number(document.getElementById("t2p2score").value) || 0;
 
-    if (s1) pointsHistory.push({team: 1, player: 0, value: s1, time: now});
-    if (s2) pointsHistory.push({team: 1, player: 1, value: s2, time: now});
-    if (s3) pointsHistory.push({team: 2, player: 0, value: s3, time: now});
-    if (s4) pointsHistory.push({team: 2, player: 1, value: s4, time: now});
+    let now = new Date().toLocaleTimeString("ar-EG");
+    if(s1) pointsHistory.push({team: team1.name, player: team1.players[0], val: s1, time: now});
+    if(s2) pointsHistory.push({team: team1.name, player: team1.players[1], val: s2, time: now});
+    if(s3) pointsHistory.push({team: team2.name, player: team2.players[0], val: s3, time: now});
+    if(s4) pointsHistory.push({team: team2.name, player: team2.players[1], val: s4, time: now});
 
-    team1.scores[0] += s1;
-    team1.scores[1] += s2;
-    team2.scores[0] += s3;
-    team2.scores[1] += s4;
-    document.getElementById("t1p1score").value = "";
-    document.getElementById("t1p2score").value = "";
-    document.getElementById("t2p1score").value = "";
-    document.getElementById("t2p2score").value = "";
-    document.getElementById("team1total").innerText = team1.scores[0] + team1.scores[1];
-    document.getElementById("team2total").innerText = team2.scores[0] + team2.scores[1];
-    checkWinner();
+    team1.scores[0] += s1; team1.scores[1] += s2;
+    team2.scores[0] += s3; team2.scores[1] += s4;
+
+    updateUI();
+    
+    // مسح الخانات
+    ['t1p1score','t1p2score','t2p1score','t2p2score'].forEach(id => document.getElementById(id).value = "");
 }
-function checkWinner() {
+
+function updateUI() {
     let total1 = team1.scores[0] + team1.scores[1];
     let total2 = team2.scores[0] + team2.scores[1];
-    if ((total1 >= 151 || total2 >= 151)) {
-        document.getElementById("game").style.display = "none";
-        endTime = new Date();
-        saveGame(total1, total2);
-        showAfterGame();
+
+    document.getElementById("team1total").innerText = total1;
+    document.getElementById("team2total").innerText = total2;
+
+    // تمييز الفريق الأعلى
+    const box1 = document.getElementById("t1TotalBox");
+    const box2 = document.getElementById("t2TotalBox");
+
+    box1.classList.remove("leader");
+    box2.classList.remove("leader");
+
+    if (total1 > total2) box1.classList.add("leader");
+    else if (total2 > total1) box2.classList.add("leader");
+
+    if (total1 >= 151 || total2 >= 151) {
+        endGame(total1, total2);
     }
 }
-function saveGame(total1, total2) {
-    let winner, loser;
-    if (total1 > total2) {
-        winner = team1.name;
-        loser = team2.name;
-        winCount.team1++;
-    } else {
-        winner = team2.name;
-        loser = team1.name;
-        winCount.team2++;
-    }
+
+function endGame(t1, t2) {
+    let winner = t1 >= 151 ? team1.name : team2.name;
+    document.getElementById("winnerMsg").innerHTML = `<div class="winner-banner">🏆 كفو! الفائز هو: ${winner} 🏆</div>`;
+    
     allGames.push({
-        team1: {...team1},
-        team2: {...team2},
-        pointsHistory: [...pointsHistory],
-        winner,
-        loser,
-        startTime,
-        endTime
+        t1Name: team1.name, t2Name: team2.name,
+        t1Score: t1, t2Score: t2,
+        history: [...pointsHistory],
+        winner: winner,
+        date: new Date().toLocaleString("ar-EG")
     });
+    
+    showScreen('afterGame');
 }
-function showAfterGame() {
-    let lastGame = allGames[allGames.length-1];
-    let msg = `<div class="winner-banner">🏆 <span class="team-box${lastGame.winner === lastGame.team2.name ? ' red' : ''}">${lastGame.winner}</span> هو الفائز 🏆</div>`;
-    document.getElementById("winnerMsg").innerHTML = msg;
-    document.getElementById("afterGame").style.display = "block";
-    document.getElementById("result").style.display = "none";
-}
+
 function showResults() {
-    document.getElementById("afterGame").style.display = "none";
-    let summary = `
-    <div class="scores-summary">
-        عدد الأشواط: ${allGames.length}<br>
-        عدد مرات الفوز للفريق الأول (${allGames[0].team1.name}): ${winCount.team1}<br>
-        عدد مرات الفوز للفريق الثاني (${allGames[0].team2.name}): ${winCount.team2}
-    </div>
-    `;
-    let allGamesTables = allGames.map((game, idx) => {
-        let total1 = game.team1.scores[0] + game.team1.scores[1];
-        let total2 = game.team2.scores[0] + game.team2.scores[1];
-        let winner, loser, winnerPlayers, loserPlayers, winnerScores, loserScores, winnerTotal, loserTotal;
-        if (total1 > total2) {
-            winner = game.team1.name;
-            loser = game.team2.name;
-            winnerPlayers = game.team1.players;
-            loserPlayers = game.team2.players;
-            winnerScores = game.team1.scores;
-            loserScores = game.team2.scores;
-            winnerTotal = total1;
-            loserTotal = total2;
-        } else {
-            winner = game.team2.name;
-            loser = game.team1.name;
-            winnerPlayers = game.team2.players;
-            loserPlayers = game.team1.players;
-            winnerScores = game.team2.scores;
-            loserScores = game.team1.scores;
-            winnerTotal = total2;
-            loserTotal = total1;
-        }
-        let bestIndex = winnerScores.indexOf(Math.max(...winnerScores));
-        let bestPlayer = winnerPlayers[bestIndex];
-        let durationMs = game.endTime - game.startTime;
-        let durationMin = Math.floor(durationMs / 60000);
-        let durationSec = Math.floor((durationMs % 60000) / 1000);
-
-        let pointsTable = `
-        <h4>جدول النقاط التفصيلي</h4>
-        <table class="points-table">
-            <tr>
-                <th>الفريق</th>
-                <th>اللاعب</th>
-                <th>النقطة</th>
-                <th>الوقت</th>
-            </tr>
-            ${game.pointsHistory.map(p => `
-                <tr>
-                    <td>${p.team === 1 ? game.team1.name : game.team2.name}</td>
-                    <td>${p.team === 1 ? game.team1.players[p.player] : game.team2.players[p.player]}</td>
-                    <td class="big-score">${p.value}</td>
-                    <td>${p.time}</td>
-                </tr>
-            `).join('')}
-        </table>
-        `;
-
-        let winnerTable = `
-        <h4 class="team-box${winner === game.team2.name ? ' red' : ''}">${winner} (الشوط ${idx+1})</h4>
-        <table>
-            <tr><th>الاسم</th><th>النقاط</th></tr>
-            <tr>
-                <td class="player-name">${winnerPlayers[0]} - </td>
-                <td class="big-score">${winnerScores[0]}</td>
-            </tr>
-            <tr>
-                <td class="player-name">${winnerPlayers[1]} - </td>
-                <td class="big-score">${winnerScores[1]}</td>
-            </tr>
-            <tr><th>المجموع</th><th class="big-score">${winnerTotal}</th></tr>
-        </table>
-        `;
-
-        let loserTable = `
-        <h4 class="team-box red">${loser}${loserTotal === 0 ? ' <span class="smile">😄</span>' : ''}</h4>
-        <table>
-            <tr><th>الاسم</th><th>النقاط</th>${loserTotal === 0 ? '<th></th>' : ''}</tr>
-            <tr>
-                <td class="player-name">${loserPlayers[0]} - </td>
-                <td class="big-score">${loserScores[0]}</td>
-                ${loserTotal === 0 ? '<td><span class="smile">😄</span> <span class="sticker">ملص</span></td>' : ''}
-            </tr>
-            <tr>
-                <td class="player-name">${loserPlayers[1]} - </td>
-                <td class="big-score">${loserScores[1]}</td>
-                ${loserTotal === 0 ? '<td><span class="smile">😄</span> <span class="sticker">ملص</span></td>' : ''}
-            </tr>
-            <tr><th>المجموع</th><th class="big-score">${loserTotal}</th>${loserTotal === 0 ? '<th></th>' : ''}</tr>
-        </table>
-        `;
-
-        return `
-        <div style="border:2px solid #007bff; border-radius:10px; margin-bottom:20px; padding:10px;">
-            <h3>الشوط ${idx+1}</h3>
-            ${winnerTable}
-            ${loserTable}
-            ${pointsTable}
-            <h4>🌟 أفضل لاعب: ${bestPlayer}</h4>
-            <p>⏱️ مدة الشوط: ${durationMin} دقيقة و ${durationSec} ثانية</p>
-        </div>
-        `;
-    }).join('');
-
-    let html = `
-    ${summary}
-    ${allGamesTables}
-    <div class="action-btns">
-        <button onclick="savePDF()">حفظ النتائج PDF</button>
-        <button onclick="startNewGame()">بداية لعبة جديدة</button>
-        <button onclick="backToGame()">العودة وتكملة اللعبة</button>
-    </div>
-    `;
-    document.getElementById("result").innerHTML = html;
-    document.getElementById("result").style.display = "block";
-}
-
-// حفظ PDF
-
-
-
-
-function savePDF() {
-    const pdf = new window.jspdf.jsPDF('p', 'mm', 'a4');
-    let promises = [];
-    allGames.forEach((game, idx) => {
-        let tempDiv = document.createElement('div');
-        tempDiv.style.width = "1200px";
-        tempDiv.style.background = "#fff";
-        tempDiv.style.padding = "30px";
-        tempDiv.style.fontSize = "1.2em";
-        tempDiv.innerHTML = `
-            <h2>نتائج لعبة الدومينو - الشوط ${idx+1}</h2>
-            <h3>الفريق الأول: ${game.team1.name}</h3>
-            <h3>الفريق الثاني: ${game.team2.name}</h3>
-            <p>الفائز: ${game.winner}</p>
-            <p>وقت البدء: ${game.startTime.toLocaleString("ar-EG")}</p>
-            <p>وقت النهاية: ${game.endTime.toLocaleString("ar-EG")}</p>
-            <h4>جدول النقاط</h4>
-            <table border="1" style="width:100%;border-collapse:collapse;">
-                <tr>
-                    <th>الفريق</th>
-                    <th>اللاعب</th>
-                    <th>النقطة</th>
-                    <th>الوقت</th>
-                </tr>
-                ${game.pointsHistory.map(p => `
-                    <tr>
-                        <td>${p.team === 1 ? game.team1.name : game.team2.name}</td>
-                        <td>${p.team === 1 ? game.team1.players[p.player] : game.team2.players[p.player]}</td>
-                        <td>${p.value}</td>
-                        <td>${p.time}</td>
-                    </tr>
-                `).join('')}
-            </table>
-        `;
-        document.body.appendChild(tempDiv);
-        promises.push(
-            html2canvas(tempDiv, {scale: 2}).then(canvas => {
-                let imgData = canvas.toDataURL('image/png');
-                let pageWidth = pdf.internal.pageSize.getWidth();
-                let pageHeight = pdf.internal.pageSize.getHeight();
-                let imgWidth = pageWidth - 20;
-                let imgHeight = canvas.height * imgWidth / canvas.width;
-
-                let position = 0;
-                // إذا الصورة أطول من الصفحة، قصها وأضف كل جزء في صفحة منفصلة
-                while (position < canvas.height) {
-                    let pageCanvas = document.createElement('canvas');
-                    pageCanvas.width = canvas.width;
-                    pageCanvas.height = Math.min(canvas.height - position, canvas.width * pageHeight / imgWidth);
-                    let ctx = pageCanvas.getContext('2d');
-                    ctx.drawImage(canvas, 0, position, canvas.width, pageCanvas.height, 0, 0, canvas.width, pageCanvas.height);
-                    let pageImgData = pageCanvas.toDataURL('image/png');
-                    if (position > 0 || idx > 0) pdf.addPage();
-                    pdf.addImage(pageImgData, 'PNG', 10, 10, imgWidth, pageCanvas.height * imgWidth / canvas.width);
-                    position += pageCanvas.height;
-                }
-                document.body.removeChild(tempDiv);
-            })
-        );
-    });
-    Promise.all(promises).then(() => {
-        pdf.save("نتائج_الدومينو.pdf");
-
-
-    });
-}
- 
-// بداية لعبة جديدة بفرق جديدة
-function startNewGame() {
-    team1 = {name:"", players:["",""], scores:[0,0]};
-    team2 = {name:"", players:["",""], scores:[0,0]};
-    gameStarted = false;
-    startTime = "";
-    endTime = "";
-    pointsHistory = [];
-    allGames = [];
-    winCount = {team1: 0, team2: 0};
-    document.getElementById("result").style.display = "none";
-    document.getElementById("afterGame").style.display = "none";
-    document.getElementById("team1").style.display = "none";
-    document.getElementById("team2").style.display = "none";
-    document.getElementById("game").style.display = "none";
-    document.getElementById("welcome").style.display = "block";
-}
-
-// لعبة إضافية بنفس الفرق
-function startExtraGame() {
-    gameStarted = false;
-    startTime = "";
-    endTime = "";
-    pointsHistory = [];
-    team1.scores = [0,0];
-    team2.scores = [0,0];
-    document.getElementById("result").style.display = "none";
-    document.getElementById("afterGame").style.display = "none";
-    document.getElementById("team1").style.display = "none";
-    document.getElementById("team2").style.display = "none";
-    document.getElementById("game").style.display = "block";
-    startTime = new Date();
-    document.getElementById("gameInfo").innerHTML = `<p>تاريخ ووقت بدء اللعبة: ${startTime.toLocaleString("ar-EG")}</p>`;
-    document.getElementById("team1title").innerText = team1.name;
-    document.getElementById("team2title").innerText = team2.name;
-    document.getElementById("t1p1name").innerText = team1.players[0];
-    document.getElementById("t1p2name").innerText = team1.players[1];
-    document.getElementById("t2p1name").innerText = team2.players[0];
-    document.getElementById("t2p2name").innerText = team2.players[1];
-    document.getElementById("team1total").innerText = 0;
-    document.getElementById("team2total").innerText = 0;
-gameStarted = true; // <-- أضف هذا السطر
-}
-
-// العودة وتكملة اللعبة
-function backToGame() {
-    document.getElementById("result").style.display = "none";
-    document.getElementById("afterGame").style.display = "block";
-}
-</script>
-</body>
-</html>
+    let lastGame = allGames[allGames.length - 1];
+    let historyHtml = lastGame.history.map(h => `
+        <tr>
+            <td>${h.team}</td>
+            <td>${h.player}</td>
+            <td style="color:var(--danger); font-weight:bold
