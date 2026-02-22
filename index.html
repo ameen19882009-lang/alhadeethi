@@ -2,18 +2,19 @@
 <html lang="ar" dir="rtl">
 <head>
     <meta charset="UTF-8">
-    <title>دومينو الحديثي - نظام البطولات</title>
+    <title>دومينو الحديثي - النسخة الملكية</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <link href="https://fonts.googleapis.com/css2?family=Dubai:wght@400;700&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         :root {
-            --glass: rgba(255, 255, 255, 0.08);
+            --glass: rgba(255, 255, 255, 0.07);
             --glass-border: rgba(255, 255, 255, 0.12);
             --primary: #0a84ff;
             --danger: #ff453a;
             --success: #32d74b;
             --gold: #ffd700;
+            --silver: #ebebeb;
         }
 
         body { 
@@ -42,11 +43,10 @@
         input {
             width: 100%; padding: 15px; margin: 10px 0;
             border-radius: 15px; border: 1px solid var(--glass-border);
-            font-size: 18px; box-sizing: border-box;
-            background: rgba(0, 0, 0, 0.5); color: #fff;
-            font-family: Arial, sans-serif; /* لضمان الأرقام الإنكليزية */
-            text-align: center;
-            direction: ltr; /* لضمان ظهور الأرقام بالإنكليزي */
+            font-size: 20px; box-sizing: border-box;
+            background: rgba(0, 0, 0, 0.6); color: #fff;
+            font-family: Arial, Helvetica, sans-serif; 
+            text-align: center; direction: ltr;
         }
 
         button {
@@ -59,33 +59,31 @@
         .btn-success { background: var(--success); color: white; }
         .btn-outline { background: transparent; border: 1px solid var(--glass-border); color: white; }
 
-        .team-label { color: var(--primary); font-weight: bold; margin-bottom: 5px; display: block; }
-        
-        .score-box {
-            display: flex; align-items: center; justify-content: space-between;
-            background: rgba(255,255,255,0.03); padding: 10px; border-radius: 15px; margin-bottom: 10px;
-        }
-
         .total-display {
             text-align: center; padding: 15px; border-radius: 18px;
             background: rgba(255,255,255,0.05); border: 1px solid var(--glass-border);
         }
 
         .leader { border-color: var(--danger); background: rgba(255, 69, 58, 0.15); }
-        .leader .num { color: var(--danger); font-size: 2em; font-weight: 900; }
+        .leader .num { color: var(--danger); font-size: 2.2em; font-weight: 900; }
 
         /* ستايل التقرير */
+        .award-card {
+            text-align: center; padding: 15px; border-radius: 20px; margin: 10px 0;
+            border: 1px solid var(--glass-border);
+        }
+        .mvp { background: rgba(255, 215, 0, 0.1); border-color: var(--gold); }
+        .noob { background: rgba(255, 69, 58, 0.1); border-color: var(--danger); }
+
         .round-record {
-            border-left: 3px solid var(--primary);
-            padding: 10px 15px; margin-bottom: 20px;
-            background: rgba(255,255,255,0.02); border-radius: 0 15px 15px 0;
+            border-right: 4px solid var(--primary);
+            padding: 10px 15px; margin-bottom: 15px;
+            background: rgba(255,255,255,0.02); border-radius: 15px 0 0 15px;
         }
 
-        .history-table { width: 100%; border-collapse: collapse; font-size: 0.8em; margin-top: 10px; }
+        .history-table { width: 100%; border-collapse: collapse; font-size: 0.85em; margin-top: 10px; }
         .history-table th { text-align: right; color: #888; border-bottom: 1px solid var(--glass-border); padding: 5px; }
         .history-table td { padding: 8px 5px; border-bottom: 1px solid rgba(255,255,255,0.05); }
-
-        .badge-win { background: var(--success); padding: 2px 8px; border-radius: 10px; font-size: 0.8em; }
     </style>
 </head>
 <body>
@@ -93,41 +91,40 @@
 <div class="app-container">
     <div id="scr_welcome" class="glass-card">
         <h2 style="text-align:center">🀄 دومينو الحديثي</h2>
-        <p style="text-align:center; opacity:0.6;">نظام إدارة الجلسات والأشواط</p>
+        <p style="text-align:center; opacity:0.6;">إصدار النجوم والألقاب الملكية</p>
         <button class="btn-primary" onclick="navTo('scr_setup')">بدء جلسة جديدة</button>
     </div>
 
     <div id="scr_setup" class="glass-card" style="display:none;">
-        <h3>أسماء المتنافسين</h3>
-        <span class="team-label">الفريق الأول</span>
-        <input type="text" id="t1_name" placeholder="اسم الفريق">
+        <h3>بيانات المتنافسين</h3>
+        <input type="text" id="t1_name" placeholder="اسم الفريق 1">
         <div style="display:flex; gap:10px;">
-            <input type="text" id="t1_p1" placeholder="اللاعب 1">
-            <input type="text" id="t1_p2" placeholder="اللاعب 2">
+            <input type="text" id="t1_p1" placeholder="لاعب 1">
+            <input type="text" id="t1_p2" placeholder="لاعب 2">
         </div>
-        <span class="team-label">الفريق الثاني</span>
-        <input type="text" id="t2_name" placeholder="اسم الفريق">
+        <hr style="opacity:0.1; margin:15px 0;">
+        <input type="text" id="t2_name" placeholder="اسم الفريق 2">
         <div style="display:flex; gap:10px;">
-            <input type="text" id="t2_p1" placeholder="اللاعب 3">
-            <input type="text" id="t2_p2" placeholder="اللاعب 4">
+            <input type="text" id="t2_p1" placeholder="لاعب 3">
+            <input type="text" id="t2_p2" placeholder="لاعب 4">
         </div>
         <button class="btn-primary" onclick="initSession()">دخول الطاولة</button>
     </div>
 
     <div id="scr_game" class="glass-card" style="display:none;">
         <div style="text-align:center; margin-bottom:15px;">
-            <span style="background:var(--primary); padding:4px 12px; border-radius:20px; font-size:0.8em;">الشوط الحالي: <span id="round_num">1</span></span>
+            <span style="background:var(--primary); padding:4px 15px; border-radius:20px; font-size:0.9em;">شوط رقم: <span id="round_num">1</span></span>
         </div>
 
         <div id="ui_t1">
-            <h4 id="head_t1" style="margin:0 0 10px 0;"></h4>
-            <div class="score-box">
-                <span id="label_p1"></span>
-                <input type="number" inputmode="numeric" id="in_p1" style="width:80px; margin:0;">
+            <h4 id="head_t1" style="margin:0 0 10px 0; color:var(--primary)"></h4>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <div><span id="label_p1"></span>: <b id="p1_total" style="color:var(--success)">0</b></div>
+                <input type="number" inputmode="numeric" id="in_p1" style="width:70px; margin:0; padding:8px;">
             </div>
-            <div class="score-box">
-                <span id="label_p2"></span>
-                <input type="number" inputmode="numeric" id="in_p2" style="width:80px; margin:0;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <div><span id="label_p2"></span>: <b id="p2_total" style="color:var(--success)">0</b></div>
+                <input type="number" inputmode="numeric" id="in_p2" style="width:70px; margin:0; padding:8px;">
             </div>
             <div id="card_t1" class="total-display">المجموع: <span id="total_t1" class="num">0</span></div>
         </div>
@@ -135,14 +132,14 @@
         <hr style="opacity:0.1; margin:20px 0;">
 
         <div id="ui_t2">
-            <h4 id="head_t2" style="margin:0 0 10px 0;"></h4>
-            <div class="score-box">
-                <span id="label_p3"></span>
-                <input type="number" inputmode="numeric" id="in_p3" style="width:80px; margin:0;">
+            <h4 id="head_t2" style="margin:0 0 10px 0; color:var(--primary)"></h4>
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <div><span id="label_p3"></span>: <b id="p3_total" style="color:var(--success)">0</b></div>
+                <input type="number" inputmode="numeric" id="in_p3" style="width:70px; margin:0; padding:8px;">
             </div>
-            <div class="score-box">
-                <span id="label_p4"></span>
-                <input type="number" inputmode="numeric" id="in_p4" style="width:80px; margin:0;">
+            <div style="display:flex; justify-content:space-between; margin-bottom:10px;">
+                <div><span id="label_p4"></span>: <b id="p4_total" style="color:var(--success)">0</b></div>
+                <input type="number" inputmode="numeric" id="in_p4" style="width:70px; margin:0; padding:8px;">
             </div>
             <div id="card_t2" class="total-display">المجموع: <span id="total_t2" class="num">0</span></div>
         </div>
@@ -152,19 +149,18 @@
 
     <div id="scr_report" style="display:none;">
         <div id="capture_area" style="background:#000; padding:20px;">
-            <div class="glass-card" style="border:none; background:rgba(255,255,255,0.05);">
-                <h2 style="margin:0">سجل الجلسة الكامل</h2>
-                <p id="session_date" style="font-size:0.8em; opacity:0.5;"></p>
-                <div id="session_stats" style="margin:20px 0; border-top:1px solid var(--glass-border); padding-top:10px;"></div>
-                
-                <div id="all_rounds_history"></div>
-                
-                <p style="text-align:center; font-size:0.7em; color:var(--primary); margin-top:20px;">تصميم المهندس أمين الحديثي</p>
-            </div>
+            <h2 style="text-align:center; margin-bottom:5px;">🏆 سجل الأبطال</h2>
+            <p id="session_meta" style="text-align:center; font-size:0.8em; opacity:0.5; margin-bottom:20px;"></p>
+            
+            <div id="awards_section"></div>
+
+            <div id="all_rounds_history"></div>
+            
+            <p style="text-align:center; font-size:0.7em; color:var(--primary); margin-top:30px;">تطبيق دومينو الحديثي • م. أمين الحديثي</p>
         </div>
         
         <div class="glass-card">
-            <button class="btn-success" onclick="saveImage()">⬇️ حفظ تقرير الجلسة كصورة</button>
+            <button class="btn-success" onclick="saveImage()">📸 حفظ التقرير في الصور</button>
             <button class="btn-primary" onclick="startNextRound()">🏁 إكمال الشوط التالي</button>
             <button class="btn-outline" style="color:var(--danger); border-color:var(--danger);" onclick="location.reload()">🔄 إنهاء وجلسة جديدة</button>
         </div>
@@ -173,19 +169,16 @@
 
 <script>
     let session = {
-        currentRound: 1,
-        teams: {
-            t1: { name: "", p: ["", ""], wins: 0 },
-            t2: { name: "", p: ["", ""], wins: 0 }
-        },
-        roundsHistory: [] // سيخزن بيانات كل شوط ينتهي
+        round: 1,
+        teams: { t1: { n: "", p: [], w: 0 }, t2: { n: "", p: [], w: 0 } },
+        history: [],
+        playerTotals: {} // لتخزين مجموع كل لاعب للجلسة كاملة
     };
 
-    let currentRoundData = {
-        t1Score: 0, t2Score: 0,
-        pScores: [0,0,0,0],
-        logs: []
-    };
+    let round = { t1S: 0, t2S: 0, logs: [] };
+
+    const winTitles = ["زوري الطاولة", "المهندس الملكي", "كاسر الخشوم", "المنقذ", "الحريف", "أسد الدومينو"];
+    const loseTitles = ["أبو بلاش", "موزع هدايا", "خوش ولد", "عشاي العصافير", "الغشيم", "صانع الفرحة لغيره"];
 
     function navTo(id) {
         document.querySelectorAll('.app-container > div').forEach(d => d.style.display = 'none');
@@ -193,30 +186,20 @@
     }
 
     function initSession() {
-        session.teams.t1.name = document.getElementById('t1_name').value || "الفريق 1";
+        session.teams.t1.n = document.getElementById('t1_name').value || "الفريق 1";
         session.teams.t1.p = [document.getElementById('t1_p1').value || "لاعب 1", document.getElementById('t1_p2').value || "لاعب 2"];
-        session.teams.t2.name = document.getElementById('t2_name').value || "الفريق 2";
+        session.teams.t2.n = document.getElementById('t2_name').value || "الفريق 2";
         session.teams.t2.p = [document.getElementById('t2_p1').value || "لاعب 3", document.getElementById('t2_p2').value || "لاعب 4"];
         
-        setupGameUI();
+        // تصفير عداد النقاط التراكمي للاعبين
+        [...session.teams.t1.p, ...session.teams.t2.p].forEach(name => session.playerTotals[name] = 0);
+        
+        updateGameUI();
         navTo('scr_game');
     }
 
-    function setupGameUI() {
-        document.getElementById('round_num').innerText = session.currentRound;
-        document.getElementById('head_t1').innerText = session.teams.t1.name;
-        document.getElementById('label_p1').innerText = session.teams.t1.p[0];
-        document.getElementById('label_p2').innerText = session.teams.t1.p[1];
-        
-        document.getElementById('head_t2').innerText = session.teams.t2.name;
-        document.getElementById('label_p3').innerText = session.teams.t2.p[0];
-        document.getElementById('label_p4').innerText = session.teams.t2.p[1];
-        
-        resetRoundInputs();
-    }
-
     function addPoints() {
-        let inputs = [
+        let ins = [
             Number(document.getElementById('in_p1').value) || 0,
             Number(document.getElementById('in_p2').value) || 0,
             Number(document.getElementById('in_p3').value) || 0,
@@ -225,95 +208,106 @@
 
         let time = new Date().toLocaleTimeString("en-US", {hour12:false, minute:'2-digit', second:'2-digit'});
 
-        inputs.forEach((v, i) => {
+        ins.forEach((v, i) => {
             if(v > 0) {
                 let pName = i < 2 ? session.teams.t1.p[i] : session.teams.t2.p[i-2];
-                currentRoundData.logs.push({ name: pName, val: v, time: time });
-                currentRoundData.pScores[i] += v;
-                if(i < 2) currentRoundData.t1Score += v;
-                else currentRoundData.t2Score += v;
+                round.logs.push({ name: pName, val: v, time: time });
+                session.playerTotals[pName] += v;
+                if(i < 2) round.t1S += v; else round.t2S += v;
             }
         });
 
-        updateScoresDisplay();
-        for(let i=1; i<=4; i++) document.getElementById('in_p'+i).value = "";
-
-        if(currentRoundData.t1Score >= 151 || currentRoundData.t2Score >= 151) {
-            finishRound();
-        }
+        updateGameUI();
+        if(round.t1S >= 151 || round.t2S >= 151) finishRound();
     }
 
-    function updateScoresDisplay() {
-        document.getElementById('total_t1').innerText = currentRoundData.t1Score;
-        document.getElementById('total_t2').innerText = currentRoundData.t2Score;
+    function updateGameUI() {
+        document.getElementById('round_num').innerText = session.round;
+        document.getElementById('head_t1').innerText = session.teams.t1.n;
+        document.getElementById('label_p1').innerText = session.teams.t1.p[0];
+        document.getElementById('label_p2').innerText = session.teams.t1.p[1];
+        document.getElementById('p1_total').innerText = session.playerTotals[session.teams.t1.p[0]];
+        document.getElementById('p2_total').innerText = session.playerTotals[session.teams.t1.p[1]];
+        document.getElementById('total_t1').innerText = round.t1S;
 
-        const c1 = document.getElementById('card_t1');
-        const c2 = document.getElementById('card_t2');
+        document.getElementById('head_t2').innerText = session.teams.t2.n;
+        document.getElementById('label_p3').innerText = session.teams.t2.p[0];
+        document.getElementById('label_p4').innerText = session.teams.t2.p[1];
+        document.getElementById('p3_total').innerText = session.playerTotals[session.teams.t2.p[0]];
+        document.getElementById('p4_total').innerText = session.playerTotals[session.teams.t2.p[1]];
+        document.getElementById('total_t2').innerText = round.t2S;
+
+        const c1 = document.getElementById('card_t1'); const c2 = document.getElementById('card_t2');
         c1.classList.remove('leader'); c2.classList.remove('leader');
+        if(round.t1S > round.t2S) c1.classList.add('leader'); else if(round.t2S > round.t1S) c2.classList.add('leader');
 
-        if(currentRoundData.t1Score > currentRoundData.t2Score) c1.classList.add('leader');
-        else if(currentRoundData.t2Score > currentRoundData.t1Score) c2.classList.add('leader');
+        for(let i=1; i<=4; i++) document.getElementById('in_p'+i).value = "";
     }
 
     function finishRound() {
-        // حفظ بيانات الشوط في السجل
-        let winner = currentRoundData.t1Score >= 151 ? session.teams.t1.name : session.teams.t2.name;
-        if(currentRoundData.t1Score >= 151) session.teams.t1.wins++; else session.teams.t2.wins++;
+        let winner = round.t1S >= 151 ? session.teams.t1.n : session.teams.t2.n;
+        if(round.t1S >= 151) session.teams.t1.w++; else session.teams.t2.w++;
 
-        session.roundsHistory.push({
-            roundNum: session.currentRound,
-            t1Final: currentRoundData.t1Score,
-            t2Final: currentRoundData.t2Score,
-            winner: winner,
-            logs: [...currentRoundData.logs]
+        session.history.push({
+            num: session.round,
+            t1F: round.t1S, t2F: round.t2S,
+            win: winner, logs: [...round.logs]
         });
 
-        showFinalReport();
+        showReport();
     }
 
-    function showFinalReport() {
-        document.getElementById('session_date').innerText = "تاريخ الجلسة: " + new Date().toLocaleString("ar-EG");
+    function showReport() {
+        document.getElementById('session_meta').innerText = "تاريخ الجلسة: " + new Date().toLocaleString("ar-EG");
         
-        // ملخص الفوز
-        document.getElementById('session_stats').innerHTML = `
-            <div style="display:flex; justify-content:space-around; text-align:center;">
-                <div><small>${session.teams.t1.name}</small><br><b style="font-size:1.5em; color:var(--primary)">${session.teams.t1.wins} فوز</b></div>
-                <div style="font-size:1.5em; opacity:0.2">|</div>
-                <div><small>${session.teams.t2.name}</small><br><b style="font-size:1.5em; color:var(--primary)">${session.teams.t2.wins} فوز</b></div>
+        // تحديد النجم والأفشل
+        let players = Object.keys(session.playerTotals);
+        let mvp = players.reduce((a, b) => session.playerTotals[a] > session.playerTotals[b] ? a : b);
+        let noob = players.reduce((a, b) => session.playerTotals[a] < session.playerTotals[b] ? a : b);
+
+        let vTitle = winTitles[Math.floor(Math.random() * winTitles.length)];
+        let lTitle = loseTitles[Math.floor(Math.random() * loseTitles.length)];
+
+        document.getElementById('awards_section').innerHTML = `
+            <div class="award-card mvp">
+                <div style="font-size:1.5em">🌟 نجم الجلسة 🌟</div>
+                <div style="font-size:1.8em; font-weight:bold;">${mvp}</div>
+                <div style="color:var(--gold)">اللقب: ${vTitle} | النقاط: ${session.playerTotals[mvp]}</div>
+            </div>
+            <div class="award-card noob">
+                <div style="font-size:1.2em">📉 أفشل لاعب 📉</div>
+                <div style="font-size:1.5em; font-weight:bold;">${noob}</div>
+                <div style="color:var(--danger)">اللقب: ${lTitle} | النقاط: ${session.playerTotals[noob]}</div>
+            </div>
+            <div style="display:flex; justify-content:space-around; margin:20px 0; border-bottom:1px solid var(--glass-border); padding-bottom:15px;">
+                <div><small>${session.teams.t1.n}</small><br><b>${session.teams.t1.w} فوز</b></div>
+                <div style="font-size:1.5em; opacity:0.2">VS</div>
+                <div><small>${session.teams.t2.n}</small><br><b>${session.teams.t2.w} فوز</b></div>
             </div>
         `;
 
-        // سجل الأشواط
-        let html = "";
-        session.roundsHistory.forEach(r => {
-            html += `
+        let hHtml = "";
+        session.history.slice().reverse().forEach(r => {
+            hHtml += `
                 <div class="round-record">
-                    <div style="display:flex; justify-content:space-between; align-items:center;">
-                        <b>الشوط ${r.roundNum}</b>
-                        <span class="badge-win">الفائز: ${r.winner}</span>
-                    </div>
-                    <div style="font-size:0.9em; margin:5px 0;">النتيجة: ${r.t1Final} - ${r.t2Final}</div>
+                    <div style="display:flex; justify-content:space-between;"><b>الشوط ${r.num}</b> <span style="color:var(--success)">الفائز: ${r.win}</span></div>
+                    <div style="font-size:0.8em; opacity:0.7">النتيجة النهائية: ${r.t1F} - ${r.t2F}</div>
                     <table class="history-table">
-                        <tr><th>اللاعب</th><th>النقطة</th><th>الوقت</th></tr>
+                        <tr><th>اللاعب</th><th>نقطة</th><th>وقت</th></tr>
                         ${r.logs.map(l => `<tr><td>${l.name}</td><td>${l.val}</td><td>${l.time}</td></tr>`).join('')}
                     </table>
                 </div>
             `;
         });
-        document.getElementById('all_rounds_history').innerHTML = html;
+        document.getElementById('all_rounds_history').innerHTML = hHtml;
         navTo('scr_report');
     }
 
     function startNextRound() {
-        session.currentRound++;
-        currentRoundData = { t1Score: 0, t2Score: 0, pScores: [0,0,0,0], logs: [] };
-        setupGameUI();
-        updateScoresDisplay();
+        session.round++;
+        round = { t1S: 0, t2S: 0, logs: [] };
+        updateGameUI();
         navTo('scr_game');
-    }
-
-    function resetRoundInputs() {
-        for(let i=1; i<=4; i++) document.getElementById('in_p'+i).value = "";
     }
 
     function saveImage() {
